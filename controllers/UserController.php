@@ -74,6 +74,7 @@ class UserController
             }
             if ($result) {
                 $_SESSION['user'] = $userInfo;
+                User::add($userInfo['id'],$userInfo['first_name']);
                 header('HTTP/1.1 301 Moved Permanently');
                 header("Location:/");
             }

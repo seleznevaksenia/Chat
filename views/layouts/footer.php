@@ -18,16 +18,46 @@
 <script src="/template/js/main.js"></script>
 
 <script>
-    $(document).ready(function (){
+
+    //Загрузка
+    $(function () {
+        $.post("/user/load/", {}, function (data) {
+            $("#msg-box").html(data);
+        });
+    });
+
+    //Редактировать
+    $(function () {
+    $("#text").click(function () {
+        this.css("border", "1px solid red");
+        alert('hello');
+    });
+    });
+
+    function red(element){
+        var node = document.createElement("I");
+        element.style.color = "red";
+        element.children[0].style.opacity = 1;
+        element.children[1].style.opacity = 1;
+        element.children[2].style.opacity = 1;
+
+    }
+
+
+    $(document).ready(function () {
         $("#send").click(function () {
             $("#error").hide();
             var text = $("#text").val();
             document.tbox.msg.value="";
+
+            //Ajax
                $.post("/user/auth/", {
                    message: text
                }, function (data) {
                    if(data!='error'){
-                $("#msg-box").append("<div>"+data+":"+text+"   "+"<i class='fa fa-pencil' ></i>"+" " +"<i class='fa fa-reply'></i>"+"</div>");
+                       var myDate = new Date();
+                       var pict = "<i class='fa fa-pencil' ></i>"+" "+"<i class='fa fa-reply'></i>"+" "+"<i class='fa fa-trash-o' ></i>";
+                $("#msg-box").prepend("<div class='messageblock' onclick='red(this)'>"+myDate.getFullYear()+"-"+myDate.getUTCMonth()+"-"+myDate.getUTCDay()+" "+myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds()+" "+data+":"+text+" "+pict+"</div>");
                }
                else
             {
@@ -38,13 +68,14 @@
             return false;
         });
 
+
         //Перезагрузка чата
-        $.post("/user/load/", {}, function (data) {
+        $("#load").click(function () {
+       $.post("/user/load/", {}, function (data) {
             $("#msg-box").html(data);
         });
-        return false;
+            return false;
     });
-
 
     });
 

@@ -25,8 +25,9 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/template/images/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="/template/images/ico/apple-touch-icon-57-precomposed.png">
 
+        <script>
 
-
+        </script>
 
     </head><!--/head-->
 
@@ -55,8 +56,9 @@
 
                                 <ul class="nav navbar-nav">
 
-                                    <li><a href="http://oauth.vk.com/authorize?client_id=5874138&redirect_uri=http://lightit/&response_type=code">Аутентификация через ВКонтакте</a></li>
+                                    <li><a href="http://oauth.vk.com/authorize?client_id=5874138&redirect_uri=http://lightit/&response_type=code" class="vk" data-vk>Вход через ВКонтакте</a></li>
                                     <li><a href="/user/logout/">Выход</a></li>
+                                    <li><input id = "load" type="button" class="btn btn-default" value="Перегрузить чат" /></li>
                                 </ul>
 
                         </div>

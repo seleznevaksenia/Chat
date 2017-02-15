@@ -6,9 +6,12 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700);
 @import url(http://fonts.googleapis.com/css?family=Abel);
 
-#msg {
+#shadow{
   box-shadow:  0 0 5px 2px #B2B2B2;
+  padding-left:0 ;
+  padding-right: 0;
 }
+
 #bigbox{
   height: 300px;
   box-shadow:  0 0 5px 2px #B2B2B2;
@@ -158,11 +161,19 @@ a#scrollUp i{
 .fa-pencil:hover{
   opacity:1;
 }
-.fa-reply {
+.fa-reply{
   opacity: 0;
+}
+.fa-trash-o {
+  opacity: 0;
+}
+.fa-trash-o:hover{
+  opacity:1;
 }
 .fa-reply:hover{
   opacity:1;
+}
+.vk[data-vk]:before {content: url(http://favicon.yandex.net/favicon/vk.com);
 }
 .header-middle .container .row {
   border-bottom: 1px solid #f5f5f5;

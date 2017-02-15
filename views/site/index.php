@@ -5,8 +5,8 @@
     <div class="container">
         <form name="tbox" action="" method="">
         <div class="row">
-            <div class="col-sm-6 col-sm-offset-3 ">
-                <textarea id ="text" name="msg" rows="5" cols="15"></textarea>
+            <div  id = "shadow" class="col-sm-6 col-sm-offset-3 ">
+                <textarea id ="text" name="msg" rows="5" cols="20"></textarea>
             </div>
             <div class="col-sm-2">
                 <input id = "send" type="submit" class="btn btn-default" value="Отправить" />

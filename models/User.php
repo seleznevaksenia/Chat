@@ -2,22 +2,35 @@
 
 class User
 {
-    public static function register($name, $email, $password) {
+    public static function add($vk_id,$user_name) {
         
         $db = Db::getConnection();
-        //$password = md5($password);
-        $password = md5($password);
-        
-        $sql = 'INSERT INTO user (user_name, email, password)'
-                . 'VALUES (:user_name, :email, :password)';
-        
-        $result = $db->prepare($sql);
-        $result->bindParam(':user_name', $name, PDO::PARAM_STR);
-        $result->bindParam(':email', $email, PDO::PARAM_STR);
-        $result->bindParam(':password', $password, PDO::PARAM_STR);
+        //137891365
 
-        //Тут была ошибка return $result->execute();
-        return $result->execute();
+        $sql = 'SELECT COUNT(*) FROM users WHERE vk_id = :vk_id';
+
+        $result = $db->prepare($sql);
+        $result->bindParam(':vk_id', $vk_id, PDO::PARAM_STR);
+        $result->execute();
+        $count=$result->fetchColumn();
+        if ($count == 0) {
+            $sqlnew = 'INSERT INTO users (user_name,vk_id ) VALUES (:user_name, :vk_id)';
+
+            $result = $db->prepare($sqlnew);
+            $result->bindParam(':user_name', $user_name, PDO::PARAM_STR);
+            $result->bindParam(':vk_id', $vk_id, PDO::PARAM_STR);
+            //Тут была ошибка return $result->execute();
+             $result->execute();
+            $sql = 'SELECT *FROM users WHERE vk_id = :vk_id';
+
+            $result = $db->prepare($sql);
+            $result->bindParam(':vk_id', $vk_id, PDO::PARAM_STR);
+            $result->execute();
+            $count=$result->fetchColumn();
+           return $count;
+        }
+
+        return $count;
     }
     
     /**
