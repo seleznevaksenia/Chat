@@ -2,13 +2,46 @@
 
 class UserController
 {
+    public function actionAuthdb()
+    {
+
+        if (isset($_SESSION['user'])) {
+            if ($_SESSION['user']['id'] == Message::getUserByMessage($_POST['id'])){
+                echo 'yes';
+            return true;
+        } else {
+             $f = Message::getUserByMessage($_POST['id']);
+            echo 'no';
+            return true;
+        }
+    }
+        else {echo 'error';
+            return true;}
+    }
+
+    public function actionDelete()
+    {
+            echo Message::delete($_POST['mes_id']);
+            return true;
+    }
+
+    public function actionRed()
+    {
+        echo Message::red($_POST['mes_id'],$_POST['text']);
+        return true;
+    }
+
+
 
     public function actionAuth()
     {
 
         if (isset($_SESSION['user'])) {
-        echo $_SESSION['user']['first_name'];
+
+            //$massiv = array('id'=> ;);
+        //echo $_SESSION['user']['first_name'];
         Message::send($_POST['message']);
+        echo Message::load();
         return true;
         }
         else {echo 'error';
@@ -74,7 +107,7 @@ class UserController
             }
             if ($result) {
                 $_SESSION['user'] = $userInfo;
-                User::add($userInfo['id'],$userInfo['first_name']);
+                $id=User::add($userInfo['id'],$userInfo['first_name']);
                 header('HTTP/1.1 301 Moved Permanently');
                 header("Location:/");
             }

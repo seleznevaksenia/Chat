@@ -12,6 +12,15 @@
   padding-right: 0;
 }
 
+.messageblock span{
+  color: #2a6496;
+}
+#red{
+  width:inherit;
+  overflow: auto;
+}
+
+
 #bigbox{
   height: 300px;
   box-shadow:  0 0 5px 2px #B2B2B2;
@@ -154,25 +163,15 @@ a#scrollUp i{
 	background:#CE3C2D;
 }
 .fa-pencil{
-  opacity:0;
-
-
-}
-.fa-pencil:hover{
-  opacity:1;
+  display:none;
 }
 .fa-reply{
-  opacity: 0;
+  display:none;
 }
 .fa-trash-o {
-  opacity: 0;
+  display:none;
 }
-.fa-trash-o:hover{
-  opacity:1;
-}
-.fa-reply:hover{
-  opacity:1;
-}
+
 .vk[data-vk]:before {content: url(http://favicon.yandex.net/favicon/vk.com);
 }
 .header-middle .container .row {
