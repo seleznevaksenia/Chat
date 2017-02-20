@@ -67,7 +67,7 @@
   color: #357ebd;
 }
 #bigbox{
-  height: 300px;
+    height: 400px;
   box-shadow: 0 0 5px 2px #285e8e;
   word-wrap:break-word;
   overflow: auto;
