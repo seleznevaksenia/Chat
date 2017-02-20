@@ -10,7 +10,6 @@ class UserController
                 echo 'yes';
             return true;
         } else {
-             $f = Message::getUserByMessage($_POST['id']);
             echo 'no';
             return true;
         }
@@ -31,28 +30,37 @@ class UserController
         return true;
     }
 
-
+    public function actionCom()
+    {
+        echo Message::com($_POST['parent_id'], $_POST['text']);
+        return true;
+    }
 
     public function actionAuth()
     {
-
+        $id = NULL;
+        $n = 0;
+        $text = "";
         if (isset($_SESSION['user'])) {
 
-            //$massiv = array('id'=> ;);
-        //echo $_SESSION['user']['first_name'];
         Message::send($_POST['message']);
-        echo Message::load();
+            $message = Message::load();
+            echo Message::recursion($id, $n, $text, $message);
         return true;
         }
         else {echo 'error';
         return true;}
     }
-    public function actionload()
+
+    public function actionRecursion()
     {
-       echo Message::load();
+        $id = NULL;
+        $n = 0;
+        $text = "";
+        $message = Message::load();
+        echo Message::recursion($id, $n, $text, $message);
         return true;
     }
-
 
     public function actionLogout()
     {
@@ -80,8 +88,6 @@ class UserController
                 'redirect_uri' => REDIRECT_URI
             );
 
-            //https://oauth.vk.com/access_token?client_id= + CLIENT_ID + &client_secret= + CLIENT_SECRET + &v=5.62&grant_type=client_credentials
-            //$token = json_decode(file_get_contents('https://oauth.vk.com/access_token' . '?' . urldecode(http_build_query($params))));
             $url = 'https://oauth.vk.com/access_token' . '?' . urldecode(http_build_query($params));
             $r = curl_init();
             curl_setopt($r, CURLOPT_NOPROGRESS, 0);
@@ -90,8 +96,8 @@ class UserController
 
             $token = json_decode(curl_exec($r));
 
-            //$token = json_decode('{"access_token":"94959f30f481a4bbd89f74b5991b5fb5bb8887512ab874cd0853a39562da6d8c6d2f4d273151773361b9f","expires_in":85506,"user_id":137891365}');
-          if ($token->{"access_token"}) {
+
+            if ($token->{"access_token"}) {
                 $params = array(
                     'uids'         => $token->{"user_id"},
                     'fields'       => 'uid,first_name,last_name,screen_name,bdate,sex,photo_big',
@@ -108,6 +114,7 @@ class UserController
             if ($result) {
                 $_SESSION['user'] = $userInfo;
                 $id=User::add($userInfo['id'],$userInfo['first_name']);
+
                 header('HTTP/1.1 301 Moved Permanently');
                 header("Location:/");
             }
@@ -115,16 +122,6 @@ class UserController
               echo "error";
             }
 
-           /**if ($result) {
-
-                echo "Социальный ID пользователя: " . $userInfo['id'] . '<br />';
-                echo "Имя пользователя: " . $userInfo['first_name'] . '<br />';
-                echo "Ссылка на профиль пользователя: " . $userInfo['screen_name'] . '<br />';
-                echo "Пол пользователя: " . $userInfo['sex'] . '<br />';
-               echo "День Рождения: " . $userInfo['bdate'] . '<br />';
-                echo '<img src="' . $userInfo['photo_big'] . '" />'; echo "<br />";
-
-            }*/
         }
 
     }

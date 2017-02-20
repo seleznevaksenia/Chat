@@ -1,84 +1,54 @@
 //Загрузка
 var load =
-    $.post("/user/load/", {}, function (data) {
+    $.post("/user/recursion/", {}, function (data) {
         $("#msg-box").html(data);
+
     });
 
 $(function () {
     load;
 });
 
+function plus(element) {
+    var id_i = $(element).attr("data-mesid");
+    $('div[data-plus=' + id_i + ']').slideToggle("slow", function () {
+    });
+
+}
+
+
+
 //Вызывает элементы для редактирования, коментирования,удаления
 var flag;
-var flagCom;
-var n;
 var flag_id;
 function showme(element){
-    //var id_i = element.getAttribute("data-mesid");
     var id_i = $(element).attr("data-mesid");
-    //$.post("/user/authdb/", {id:element.getAttribute("data-mesid")}, function (data) {
-    //var elements = document.getElementsByTagName("i");
     $.post("/user/authdb/", {id:id_i}, function (data) {
+
+        //Флаги для проверки, что меню не открыто под другим сообщением
+        //Если сообщение открыто
         if(flag && flag_id == id_i){flag = false;}
+        //Если сообщение закрыто
         else if(!flag) {flag = true; flag_id = id_i;}
+        //Меню открыто под другим сообщением
         else{
             return;
         }
-        if (data == 'yes') {
 
+        if (data == 'yes') {
             $('i[data-iid='+id_i+']').slideToggle("slow", function() {
             });
         }
-
-
-
-                /*if (flag) {
-                    for (var i = 0; i < elements.length; i++) {
-                        if (elements[i].getAttribute("data-iid") == id_i) {
-                            elements[i].style.display = 'none';
-                            flag = false;
-                        }
-                    }
-                }
-                else {
-                    //Добавить уловие для запреда действия
-
-                        for (var i = 0; i < elements.length; i++) {
-                            if (elements[i].getAttribute("data-iid") == id_i) {
-                                elements[i].style.display = 'block';
-                                flag = true;
-                            }
-                        }
-                }*/
-
         if(data == 'no'){
             $('i[data-comid='+id_i+']').slideToggle("slow", function() {
             });
-
-            /**if(flagCom){
-                for (var i = 0; i < elements.length; i++) {
-                    if (elements[i].getAttribute("data-comid") == id_i ) {
-                        elements[i].style.display = 'none';
-                    }
-                    flagCom = false;
-                }
-            }
-            else{
-                //Добавить уловие
-                for (var i = 0; i < elements.length; i++) {
-                    if (elements[i].getAttribute("data-comid") == id_i ) {
-                        elements[i].style.display = 'block';
-                    }
-                    flagCom = true;
-                }
-            }**/
         }
     });
     return false;
 }
 
 
-//Попітка написать сообщение без авторизации
+//Отправка сообщения
 $(document).ready(function () {
     $("#send").click(function () {
         $("#error").hide();
@@ -90,6 +60,7 @@ $(document).ready(function () {
             message: text
         }, function (data) {
             if(data!='error'){
+                $("#text").focus();
                 $("#msg-box").html(data);
             }
             else
@@ -101,21 +72,14 @@ $(document).ready(function () {
         return false;
     });
 
-
-    //Перезагрузка чата
-    $("#load").click(function () {
-        $.post("/user/load/", {}, function (data) {
-            $("#msg-box").html(data);
-        });
-        return false;
-    });
-
 });
+
 //Удаление сообщения
 function del(element){
     $.post("/user/delete/", {mes_id:element.getAttribute("data-iid")}, function (data) {
-        $.post("/user/load/", {}, function (data) {
+        $.post("/user/recursion/", {}, function (data) {
             $("#msg-box").html(data);
+            flag = false;
         });
     });
     return false;
@@ -123,21 +87,22 @@ function del(element){
 
 //Редактирование сообщений
 function red(element) {
-    var mes_id = element.getAttribute("data-iid");
-    var elements = document.getElementsByClassName("messageblock");
+    var mes_id = $(element).attr("data-iid");
+    var elements = $(".messageblock");
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].getAttribute("data-mesid") == mes_id) {
             elements[i].style.display = 'none';
             var message = elements[i]. innerHTML;
             var newMessage = message.replace(/<span>.+<\/span>/g,"");
-
-            elements[i].insertAdjacentHTML("afterEnd", "<div class='row'><div class='col-sm-12'><input id='red' type='text' value='"+newMessage+"'/></div></div><div id = 'finish' >Завершить</div>");
+            elements[i].insertAdjacentHTML("afterEnd", "<div class='row'><div class='col-sm-12'><form><input id='red' type='text' value='" + newMessage + "' required/><input id = 'finish' type='submit' value='Завершить' /></form></div></div>");
+            $("#red").focus();
         }
     }
     document.getElementById("finish").onclick = function() {
         var text = document.getElementById("red").value ;
+        flag = false;
         $.post("/user/red/", {mes_id:mes_id,text:text}, function (data) {
-            $.post("/user/load/", {}, function (data) {
+            $.post("/user/recursion/", {}, function (data) {
                 $("#msg-box").html(data);
             });
             return false;
@@ -146,15 +111,30 @@ function red(element) {
     }
 
 }
-    /*$.post("/user/red/", {mes_id:mes_id}, function (data) {
 
-        $.post("/user/load/", {}, function (data) {
-            $("#msg-box").html(data);
+//Комментирование сообщений
+function comment(element) {
+    var mes_id = $(element).attr("data-iid");
+    var elements = $(".messageblock");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].getAttribute("data-mesid") == mes_id) {
+            elements[i].insertAdjacentHTML("afterEnd", "<div class='row'><div class='col-sm-12'><form><input id='com' type='text' value='' required /><input id = 'finish' type='submit' value='Завершить' ></form></div></div>");
+            $("#com").focus();
+        }
+    }
+    document.getElementById("finish").onclick = function () {
+        flag = false;
+        var text = document.getElementById("com").value;
+        $.post("/user/com/", {parent_id: mes_id, text: text}, function (data) {
+            $.post("/user/recursion/", {}, function (data) {
+                $("#msg-box").html(data);
+            });
+            return false;
         });
-    });
-    return false;
-}**/
+        return false;
+    }
 
+}
 
 //Копирайт
 $(document).ready(function () {

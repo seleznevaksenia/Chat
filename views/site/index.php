@@ -3,16 +3,29 @@
 <section>
     </br>
     <div class="container">
-        <form name="tbox" action="" method="">
         <div class="row">
-            <div  id = "shadow" class="col-sm-6 col-sm-offset-3 ">
-                <textarea id ="text" name="msg" rows="5" cols="20"></textarea>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="/template/images/chat.png">
+                    </div>
+                    <div class="row">
+                        <div id="name" class="col-sm-12"> <?php echo $name ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="shadow" class="col-sm-6 ">
+                <form name="tbox" action="" method="">
+
+                    <textarea id="text" name="msg" rows="5" cols="" autofocus PLACEHOLDER="Текст сообщения"
+                              required></textarea>
             </div>
             <div class="col-sm-2">
-                <input id = "send" type="submit" class="btn btn-default" value="Отправить" />
+                <input id="send" type="submit" class="btn btn-default" value=""/>
             </div>
-        </div>
         </form>
+        </div>
             </br>
             <div class="row" >
                 <div id ="bigbox" class="col-sm-6 col-sm-offset-3">
