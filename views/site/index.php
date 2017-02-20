@@ -15,20 +15,20 @@
                     </div>
                 </div>
             </div>
-            <div id="shadow" class="col-sm-6 ">
+            <div id="shadow" class="col-sm-8 ">
                 <form name="tbox" action="" method="">
 
                     <textarea id="text" name="msg" rows="5" cols="" autofocus PLACEHOLDER="Текст сообщения"
                               required></textarea>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <input id="send" type="submit" class="btn btn-default" value=""/>
             </div>
         </form>
         </div>
             </br>
             <div class="row" >
-                <div id ="bigbox" class="col-sm-6 col-sm-offset-3">
+                <div id="bigbox" class="col-sm-8 col-sm-offset-3">
                     <div id="msg-box">
                     </div>
 

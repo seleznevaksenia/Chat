@@ -2,6 +2,7 @@
 
 class User
 {
+    //Дополнительная функция для сбора инфо о пользователях
     public static function add($vk_id,$user_name) {
         
         $db = Db::getConnection();

@@ -58,7 +58,9 @@ class UserController
         $n = 0;
         $text = "";
         $message = Message::load();
-        echo Message::recursion($id, $n, $text, $message);
+        if (isset($message)) {
+            echo Message::recursion($id, $n, $text, $message);
+        }
         return true;
     }
 
