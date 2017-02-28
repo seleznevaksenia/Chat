@@ -66,7 +66,6 @@ class UserController
 
     public function actionLogout()
     {
-        //session_start();
         unset($_SESSION['user']);
         header("Location:/");
     }
@@ -116,7 +115,6 @@ class UserController
             if ($result) {
                 $_SESSION['user'] = $userInfo;
                 $id=User::add($userInfo['id'],$userInfo['first_name']);
-
                 header('HTTP/1.1 301 Moved Permanently');
                 header("Location:/");
             }

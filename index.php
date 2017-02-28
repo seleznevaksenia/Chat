@@ -15,6 +15,7 @@ define("REDIRECT_URI",'http://lightit/');
 define("URL_ACCESS_TOKEN",'https://oauth.vk.com/access_token');
 define("URL_AUTH ",'http://oauth.vk.com/authorize');
 define("URL_GET_USER",'https://api.vk.com/method/users.get');
+
 require_once(ROOT.'/components/Autoload.php');
 
 
